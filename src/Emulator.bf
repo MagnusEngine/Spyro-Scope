@@ -56,12 +56,12 @@ namespace SpyroScope {
 
 		// Begin Spyro games information
 
-		public const Address<char8>[3] testAddresses = .(0, (.)0x80066ea8, (.)0x8006c490);
+		public const Address<char8>[3] testAddresses = .((.)0x80010dc4, (.)0x80066ea8, (.)0x8006c490);
 		public const String[4] gameNames = .(String.Empty, "Spyro the Dragon", "Spyro: Ripto's Rage", "Spyro: Year of the Dragon");
 
-		public const Address<uint32>[4] gameStateAddresses = .(0, 0, (.)0x800681c8, 0);
+		public const Address<uint32>[4] gameStateAddresses = .(0, (.)0x800757d8, (.)0x800681c8, 0);
 
-		public const Address<VectorInt>[4] spyroPositionAddresses = .(0, 0, (.)0x80069ff0, (.)0x80070408);
+		public const Address<VectorInt>[4] spyroPositionAddresses = .(0, (.)0x80078a58, (.)0x80069ff0, (.)0x80070408);
 		public const Address<MatrixInt>[4] spyroMatrixAddresses = .(0, 0, (.)0x8006a020, (.)0x80070438);
 		public const Address<VectorInt>[4] spyroIntendedVelocityAddresses = .(0, 0, (.)0x8006a084, (.)0x80070494);
 		public const Address<VectorInt>[4] spyroPhysicsVelocityAddresses = .(0, 0, (.)0x8006a090, (.)0x800704a0);
@@ -69,23 +69,23 @@ namespace SpyroScope {
 		public const Address<Address>[4] objectArrayPointers = .(0, 0, (.)0x80066f14, (.)0x8006c630);
 		public const Address<Address>[4] modelPointers = .(0, 0, (.)0x80068c94, (.)0x8006ef0c);
 
-		public const Address<VectorInt>[4] cameraPositionAddress = .(0, 0, (.)0x80067eac, (.)0x8006e100);
+		public const Address<VectorInt>[4] cameraPositionAddress = .(0, (.)0x80076e48, (.)0x80067eac, (.)0x8006e100);
 		public const Address<int16[3]>[4] cameraEulerRotationAddress = .(0, 0, (.)0x80067ec8, (.)0x8006e11c);
 		public const Address<MatrixInt>[4] cameraMatrixAddress = .(0, 0, (.)0x80067e98, (.)0x8006e0ec);
 
-		public const Address<uint32>[4] currentWorldIdAddress = .(0, 0, (.)0x80066f54, (.)0x8006c66c);
+		public const Address<uint32>[4] currentWorldIdAddress = .(0, (.)0x8007596c, (.)0x80066f54, (.)0x8006c66c);
 		public const Address<uint32> currentSubWorldIdAddress = (.)0x8006c6a8; // Exclusive to Spyro: Year of the Dragon
 
 		public const Address<Address>[4] collisionDataPointers = .(0, 0, (.)0x800673fc, (.)0x8006d150);
 		public const Address<Address>[4] collisionFlagsArrayPointers = .(0, 0, (.)0x800673e8, (.)0x8006d13c);
 		public const Address<Address>[4] collisionModifyingDataPointers = .(0, 0, (.)0x80068208, (.)0x8006e464);
 		
-		public const Address<uint32>[4] deathPlaneHeightsAddresses = .(0, 0, (.)0x80060234, (.)0x800677c8);
+		public const Address<uint32>[4] deathPlaneHeightsAddresses = .(0, (.)0x8006e9a4, (.)0x80060234, (.)0x800677c8);
 		public const Address<uint32>[4] maxFreeflightHeightsAddresses = .(0, 0, (.)0x800601b4, (.)0x80067728);
 
-		public const Address<uint32>[4] healthAddresses = .(0, 0, (.)0x8006A248, (.)0x80070688);
+		public const Address<uint32>[4] healthAddresses = .(0, (.)0x80078bbc, (.)0x8006A248, (.)0x80070688);
 
-		public const Address<uint32>[4] gameInputAddress = .(0, 0, (.)0x8001291c, 0);
+		public const Address<uint32>[4] gameInputAddress = .(0, (.)0x80077378, (.)0x8001291c, 0);
 		public const uint32[4] gameInputValue = .(0, 0, 0xac2283a0, 0);
 
 		// Game Values
@@ -338,13 +338,20 @@ namespace SpyroScope {
 					deathPlaneHeightsAddresses[(int)rom].ReadArray(&Emulator.deathPlaneHeights[0], 32);
 					maxFreeflightHeightsAddresses[(int)rom].ReadArray(&Emulator.maxFreeflightHeights[0], 32);
 				}
-			case .YearOfTheDragon: {
-				Emulator.deathPlaneHeights = new .[40 * 4];
-				Emulator.maxFreeflightHeights = new .[40 * 4];
-
-				deathPlaneHeightsAddresses[(int)rom].ReadArray(&Emulator.deathPlaneHeights[0], 40 * 4);
-				maxFreeflightHeightsAddresses[(int)rom].ReadArray(&Emulator.maxFreeflightHeights[0], 40);
-			}
+				case .YearOfTheDragon: {
+					Emulator.deathPlaneHeights = new .[40 * 4];
+					Emulator.maxFreeflightHeights = new .[40 * 4];
+	
+					deathPlaneHeightsAddresses[(int)rom].ReadArray(&Emulator.deathPlaneHeights[0], 40 * 4);
+					maxFreeflightHeightsAddresses[(int)rom].ReadArray(&Emulator.maxFreeflightHeights[0], 40);
+				}
+				case .SpyroTheDragon: {
+					Emulator.deathPlaneHeights = new .[36 * 4];
+					Emulator.maxFreeflightHeights = new .[35 * 4];
+	
+					deathPlaneHeightsAddresses[(int)rom].ReadArray(&Emulator.deathPlaneHeights[0], 36 * 4);
+					maxFreeflightHeightsAddresses[(int)rom].ReadArray(&Emulator.maxFreeflightHeights[0], 36);
+				}
 				default : {}
 			}
 		}
